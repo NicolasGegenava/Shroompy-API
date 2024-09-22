@@ -1,3 +1,20 @@
+import subprocess
+import sys
+import importlib
+
+def install_and_import(package):
+    try:
+        importlib.import_module(package)
+    except ImportError:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        
+required_packages = [
+    'flask', 'flask_cors', 'werkzeug', 'PIL', 'tensorflow', 'numpy', 'opencv-python', 'gdown', 'python-dotenv'
+]
+
+for package in required_packages:
+    install_and_import(package)
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -10,6 +27,7 @@ import numpy as np
 import cv2
 from dotenv import load_dotenv
 import gdown
+
 
 load_dotenv()
 
